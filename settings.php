@@ -23,13 +23,13 @@ $settings->setTitle('Settings - Corp Top Killers');
 if (isset($_POST['submit'])) 
 {
     //update settings    
-    (isset($_POST['corp_top_killer_limit'])) ? config::set('corp_top_killer_limit', $_POST['corp_top_killer_limit']) : config::set('corp_top_killer_limit', 10);    
+    (isset($_POST['alliance_top_killers_limit'])) ? config::set('alliance_top_killers_limit', $_POST['alliance_top_killers_limit']) : config::set('alliance_top_killers_limit', 10);
 } 
 
 //pull any settings and set defaults if there are none
-$limit = config::get('corp_top_killer_limit');
+$limit = config::get('alliance_top_killers_limit');
 if (!isset($limit)) {
-    config::set('corp_top_killer_limit', 10);
+    config::set('alliance_top_killers_limit', 10);
     $limit = 10;
 }
 
@@ -39,7 +39,7 @@ $html = '
   <tr>
     <td width="220">Corp Limit:</td>
     <td width="120">
-      <input type="text" value="'.$limit.'" name="corp_top_killer_limit" id="corp_top_killer_limit"/>
+      <input type="text" value="'.$limit.'" name="alliance_top_killers_limit" id="alliance_top_killers_limit"/>
    </td>
     <td>How many corps to show on top list (Defaults to 10)</td>
   </tr>
@@ -53,4 +53,3 @@ $html .= '<br /><br /><hr size="1" /><div align="right"><i><small>Corp Top Kille
 $settings->setContent($html);
 $settings->addContext($menubox->generate());
 $settings->generate();
-?>
