@@ -1,54 +1,55 @@
 <?php
 
 /**
- * @author Andy Snowden, boris_t(boris@talovikov.ru)
+ * @author Andy Snowden
+ * @maintainer boris_t (boris@talovikov.ru)
  * @copyright 2013
  * @version 1.1p2
  */
 
 class TopList_AllianceKills extends TopList_Base {
 
-	function generate() {
+  function generate() {
 
-		$this->setSQLTop("SELECT COUNT(distinct(kll.kll_id)) AS cnt, ind.ind_all_id AS all_id
+    $this->setSQLTop("SELECT COUNT(distinct(kll.kll_id)) AS cnt, ind.ind_all_id AS all_id
                         FROM kb3_kills kll
-	                    INNER JOIN kb3_inv_detail ind
-		                    ON (ind.ind_kll_id = kll.kll_id)");
+                      INNER JOIN kb3_inv_detail ind
+                        ON (ind.ind_kll_id = kll.kll_id)");
 
-		$this->setSQLBottom("GROUP BY ind.ind_all_id ORDER BY 1 DESC
+    $this->setSQLBottom("GROUP BY ind.ind_all_id ORDER BY 1 DESC
                            LIMIT " . $this->limit);
 
     if (count($this->inc_vic_scl)) {
-			$this->setPodsNoobShips(true);
-		}
-		else {
-			$this->setPodsNoobShips(config::get('podnoobs'));
-		}
+      $this->setPodsNoobShips(true);
+    }
+    else {
+      $this->setPodsNoobShips(config::get('podnoobs'));
+    }
 
-	}
+  }
 
 }
 
 class TopList_AllianceLosses extends TopList_Base {
 
-	function generate() {
+  function generate() {
 
-		$this->setSQLTop("SELECT COUNT(*) AS cnt, kll.kll_all_id AS all_id, alli.all_name, alli.all_external_id
+    $this->setSQLTop("SELECT COUNT(*) AS cnt, kll.kll_all_id AS all_id, alli.all_name, alli.all_external_id
                         FROM kb3_kills kll
                       JOIN kb3_alliances alli
                         ON kll.kll_all_id = alli.all_id ");
 
-		$this->setSQLBottom("GROUP BY kll.kll_all_id ORDER BY cnt DESC
+    $this->setSQLBottom("GROUP BY kll.kll_all_id ORDER BY cnt DESC
                            LIMIT " . $this->limit);
 
-		if (count($this->inc_vic_scl)) {
-			$this->setPodsNoobShips(true);
-		}
-		else {
-			$this->setPodsNoobShips(config::get('podnoobs'));
-		}
+    if (count($this->inc_vic_scl)) {
+      $this->setPodsNoobShips(true);
+    }
+    else {
+      $this->setPodsNoobShips(config::get('podnoobs'));
+    }
 
-	}
+  }
 
 }
 
@@ -59,25 +60,6 @@ $corp_id = config::get('cfg_corpid');
 $alliance_id = config::get('cfg_allianceid');
 $limit = config::get('alliance_top_killers_limit');
 
-$own = array();
-if(!empty($pilot_id)) {
-  foreach($pilot_id as $id) {
-    $pilot = new Pilot($id);
-    $own[] = $pilot->getCorp()->getAlliance()->getID();
-  }
-}
-
-if(!empty($corp_id)) {
-  foreach($corp_id as $id) {
-    $corp = new Corporation($id);
-    $own[] = $corp->getAlliance()->getID();
-  }
-}
-
-if(!empty($alliance_id)) {
-  $own = array_merge($own, $alliance_id);
-}
-
 if (empty($limit)) {
   config::set('alliance_top_killers_limit', 10);
   $limit = 10;
@@ -85,16 +67,28 @@ if (empty($limit)) {
 
 if ($sourcePage->getView() == 'losses') {
   $all_top = new TopList_AllianceLosses();
-  if(!empty($own)) {
-    $all_top->addVictimAlliance($own);
+  if(!empty($alliance_id)) {
+    $all_top->addVictimAlliance($alliance_id);
+  }
+  if(!empty($corp_id)) {
+    $all_top->addVictimCorp($corp_id);
+  }
+  if(!empty($pilot_id)) {
+    $all_top->addVictimPilot($pilot_id);
   }
   $award_img = '/awards/moon.png';
   $smarty->assign('title', "Top Alliance Losers");
 }
 else {
   $all_top = new TopList_AllianceKills();
-  if(!empty($own)) {
-    $all_top->addInvolvedAlliance($own);
+  if(!empty($alliance_id)) {
+    $all_top->addInvolvedAlliance($alliance_id);
+  }
+  if(!empty($corp_id)) {
+    $all_top->addInvolvedCorp($corp_id);
+  }
+  if(!empty($pilot_id)) {
+    $all_top->addInvolvedPilot($pilot_id);
   }
   $award_img = '/awards/eagle.png';
   $smarty->assign('title', "Top Alliance Killers");
