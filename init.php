@@ -27,7 +27,7 @@ class alliance_top_killers {
   function show() {
     global $smarty;
     include_once('mods/alliance_top_killers/alliance_top_killers.php');
-    $html .= $smarty->fetch('../../../mods/alliance_top_killers/alliance_top_killers.tpl');
+    $html .= $smarty->fetch(get_tpl('./mods/alliance_top_killers/alliance_top_killers'));
     return $html;
   }
 }
