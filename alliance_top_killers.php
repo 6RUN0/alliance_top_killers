@@ -20,7 +20,7 @@ class TopList_AllianceKills extends TopList_Base {
                            LIMIT " . $this->limit);
 
     if (count($this->inc_vic_scl)) {
-      $this->setPodsNoobShips(true);
+      $this->setPodsNoobShips(TRUE);
     }
     else {
       $this->setPodsNoobShips(config::get('podnoobs'));
@@ -43,7 +43,7 @@ class TopList_AllianceLosses extends TopList_Base {
                            LIMIT " . $this->limit);
 
     if (count($this->inc_vic_scl)) {
-      $this->setPodsNoobShips(true);
+      $this->setPodsNoobShips(TRUE);
     }
     else {
       $this->setPodsNoobShips(config::get('podnoobs'));
@@ -55,11 +55,11 @@ class TopList_AllianceLosses extends TopList_Base {
 
 class alliance_top_killers {
 
-  function add($page) {
-    $page->addBefore('topLists', 'alliance_top_killers::show');
+  function add($pHome) {
+    $pHome->addBefore('topLists', 'alliance_top_killers::show');
   }
 
-  function show($page) {
+  function show($pHome) {
 
     global $smarty;
 
@@ -73,7 +73,7 @@ class alliance_top_killers {
       $limit = 10;
     }
 
-    if ($page->getView() == 'losses') {
+    if ($pHome->getView() == 'losses') {
       $all_top = new TopList_AllianceLosses();
       if(!empty($alliance_id)) {
         $all_top->addVictimAlliance($alliance_id);
@@ -85,7 +85,7 @@ class alliance_top_killers {
         $all_top->addVictimPilot($pilot_id);
       }
       $award_img = '/awards/moon.png';
-      $smarty->assign('title', "Top Alliance Losers");
+      $smarty->assign('title', 'Top Alliance Losers');
     }
     else {
       $all_top = new TopList_AllianceKills();
@@ -99,13 +99,13 @@ class alliance_top_killers {
         $all_top->addInvolvedPilot($pilot_id);
       }
       $award_img = '/awards/eagle.png';
-      $smarty->assign('title', "Top Alliance Killers");
+      $smarty->assign('title', 'Top Alliance Killers');
     }
 
     $all_top->setPodsNoobShips(config::get('podnoobs'));
     $all_top->setLimit($limit);
     $all_top->generate();
-    $page->loadTime($all_top);
+    $pHome->loadTime($all_top);
 
     $row = $all_top->getRow();
 
@@ -137,32 +137,23 @@ class alliance_top_killers {
       }
 
       $smarty->assign('top', $top);
-      $smarty->assign('comment', "kills in " . date('F, Y', mktime(0, 0, 0, self::getMonth_atk(), 1, self::getYear_atk())));
+      $smarty->assign('comment', 'kills in ' . self::getDateStr($pHome->getYear(), $pHome->getMonth(), $pHome->getWeek()));
+
       return $smarty->fetch(get_tpl('./mods/alliance_top_killers/alliance_top_killers'));
     }
 
   }
 
-  private function getMonth_atk() {
-    $month = edkURI::getArg('m');
-    $week = edkURI::getArg('w');
-    if (!empty($month)) {
-      return $month;
-    }
-    elseif(!empty($week)) {
-      return date('m', mktime(0, 0, 0, 1, (($week - 1) * 7) + 1, self::getYear_atk()));
-    }
-    else {
-      return kbdate('m');
-    }
-  }
+  private function getDateStr($year, $month = 0, $week = 0) {
 
-  private function getYear_atk() {
-    $year = edkURI::getArg('y');
-    if(empty($year)) {
-      $year = kbdate('Y');
+    if(!empty($month)) {
+      $date = date_create("${year}-${month}");
+      return date_format($date, 'F, Y');
     }
-    return $year;
+    if(!empty($week)) {
+      return "Week ${week}, ${year}";
+    }
+
   }
 
 }
