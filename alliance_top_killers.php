@@ -122,12 +122,12 @@ class alliance_top_killers {
       $smarty->assign('bar', $bar->generate());
       $smarty->assign('cnt', $row['cnt']);
 
-      $i = 1;
+      $i = 2;
 
       while(($row = $all_top->getRow())) {
         $alliance = new Alliance($row['all_id']);
         $bar = new BarGraph($row['cnt'], $max_kl);
-        $top[$i + 1] = array(
+        $top[$i] = array(
           'url' => $alliance->getDetailsURL(),
           'name' => $alliance->getName(),
           'bar' => $bar->generate(),
