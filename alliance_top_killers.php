@@ -4,7 +4,7 @@
  * @author Andy Snowden
  * @maintainer boris_t (boris@talovikov.ru)
  * @copyright 2013
- * @version 1.1p2
+ * @version 1.1p3
  */
 
 class TopList_AllianceKills extends TopList_Base {
@@ -55,11 +55,11 @@ class TopList_AllianceLosses extends TopList_Base {
 
 class alliance_top_killers {
 
-  function add($pHome) {
+  static function add($pHome) {
     $pHome->addBefore('topLists', 'alliance_top_killers::show');
   }
 
-  function show($pHome) {
+  static function show($pHome) {
 
     global $smarty;
 
@@ -144,7 +144,7 @@ class alliance_top_killers {
 
   }
 
-  private function getDateStr($year, $month = 0, $week = 0) {
+  private static function getDateStr($year, $month = 0, $week = 0) {
 
     if(!empty($month)) {
       $date = date_create("${year}-${month}");

@@ -4,7 +4,7 @@
  * @author Andy Snowden
  * @maintainer boris_t (boris@talovikov.ru)
  * @copyright 2013
- * @version 1.1p2
+ * @version 1.1p3
  */
 
 require_once('mods/alliance_top_killers/alliance_top_killers.php');
