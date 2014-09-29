@@ -124,7 +124,7 @@ class alliance_top_killers {
 
       $i = 1;
 
-      while(($row = $all_top->getRow()) && ($i < $limit)) {
+      while(($row = $all_top->getRow())) {
         $alliance = new Alliance($row['all_id']);
         $bar = new BarGraph($row['cnt'], $max_kl);
         $top[$i + 1] = array(
