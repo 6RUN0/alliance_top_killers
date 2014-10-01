@@ -1,10 +1,10 @@
 <?php
 
 /**
+ * $Id$
  * @author Andy Snowden
  * @maintainer boris_t (boris@talovikov.ru)
  * @copyright 2013
- * @version 1.1p3
  */
 
 class TopList_AllianceKills extends TopList_Base {

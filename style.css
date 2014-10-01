@@ -1,0 +1,19 @@
+/**
+ *  $Id$
+ */
+input.alliance-top-killers-err {
+  border: 2px solid rgba(255, 0, 0, .5);
+  -moz-box-shadow: 0 0 5px rgba(255, 0, 0, .5);
+  -webkit-box-shadow: 0 0 5px rgba(255, 0, 0, .5);
+  box-shadow: 0 0 5px rgba(255, 0, 0, .5);
+}
+
+.alliance-top-killers-msg {
+  background: rgba(255, 0, 0, .5);
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 1.5em;
+  padding: 1em;
+  margin: 1em 0;
+}
