@@ -12,6 +12,6 @@
 </form><br />
 <div class="block-header2"></div>
 <div align="right">
-  <small>Alliance Top Killers Mod <br />It's fork <a href="http://www.evekb.org/forum/viewtopic.php?f=505&t=18523">Corp Top Killers Mod</a><br />$Id$</small>
+  <small>Alliance Top Killers Mod <br />It's fork <a href="http://www.evekb.org/forum/viewtopic.php?t=18523">Corp Top Killers Mod</a><br />$Id$</small>
 </div>
 <!-- /alliance_top_killers_settings.tpl -->
